@@ -2,6 +2,7 @@ MasterpieceAuctionPainting
 ==========================
 
 import java.io.File;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Date;
 
@@ -16,7 +17,7 @@ public class MasterpieceAuctionPainting extends Painting
     //Post: Creates a new MasterpieceAuctionPainting 
     MasterpieceAuctionPainting (String fname, String lname, 
                 String titleofWork, Date doWork, Date doAuction,
-                double aucSalesPrice, String medium)
+                double aucSalesPrice, String med)
     {
         artistFirstName=fname;
 	artistLastName=lname;
@@ -24,7 +25,7 @@ public class MasterpieceAuctionPainting extends Painting
 	dateOfWork=doWork;
 	dateOfAuction =doAuction;
         auctionSalesPrice = aucSalesPrice;
-	medium=medium;
+	medium=med;
     }
     
     //Desc: constructor for MasterpieceAuctionPainting
@@ -91,143 +92,152 @@ public class MasterpieceAuctionPainting extends Painting
         }
     }
     
-    //Desc: reads a file into the scanner, sets each field in the text file to 
-    //      a field in a new Bought Painting object
-    //Pre: file must exist
-    public void read(RandomAccessFile fileName)
+//Desc: reads an MasterpieceAuctionPainting record form fileName
+//Pre: file must exist 
+//Post: all fields in this object are changed
+public void read(RandomAccessFile fileName)
+{
+    try
     {
-        try
+        String  inputString = new String ();    
+        int i = 0;                      
+        inputString = fileName.readLine ();
+        StringBuffer input = new StringBuffer ();   
+        while (inputString.charAt (i) != '|')
         {
-            String  inputString = new String ();    // for storing artist record
-            int i = 0;                      // position in record
-            inputString = fileName.readLine ();
-            StringBuffer input = new StringBuffer ();   // for storing field within record
-            while (inputString.charAt (i) != '|')
-            {
-                input.append (inputString.charAt (i));
-                i++;
-            }
-            artistFirstName = input.toString ();
-            i++;
-
-            input = new StringBuffer ();
-            while (inputString.charAt (i) != '|')
-            {
-                input.append (inputString.charAt (i));
-                i++;
-            }
-            artistLastName = input.toString ();
-            i++;
-
-            input = new StringBuffer ();
-            while (inputString.charAt (i) != '|')
-            {
-                input.append (inputString.charAt (i));
-                i++;
-            }
-            titleOfWork = input.toString ();
-            i++;
-
-            input = new StringBuffer ();
-            while (inputString.charAt (i) != '|')
-            {
-                input.append (inputString.charAt (i));
-                i++; 
-            }
-            Date tempdow = new Date (input.toString ());
-            dateOfWork = tempdow;
-            i++;
-
-            input = new StringBuffer ();
-            while (inputString.charAt (i) != '|')
-            {
-                input.append (inputString.charAt (i));
-                i++; 
-            }
-            Date tempdoa = new Date (input.toString ());
-            dateOfAuction = tempdoa;
-            i++;
-
-
-            input = new StringBuffer ();
-            while (inputString.charAt (i) != '|')
-            {
-                input.append (inputString.charAt (i));
-                i++;
-            }
-            Double tempprice = new Double (input.toString ());
-            auctionSalesPrice = tempprice;
-            i++;
+          input.append (inputString.charAt (i));
+          i++;
+        }
+        artistFirstName = input.toString();
+        i++;
+        input = new StringBuffer ();
+        while (inputString.charAt (i) != '|')
+        {
+          input.append (inputString.charAt (i));
+          i++;
+        }
+        artistLastName = input.toString ();
+        i++;
+        input = new StringBuffer ();
+        while (inputString.charAt (i) != '|')
+        {
+          input.append (inputString.charAt (i));
+          i++;
+        }
+        titleOfWork=input.toString();
+        input = new StringBuffer ();
+        while (inputString.charAt (i) != '|')
+        {
+          input.append (inputString.charAt (i));
+          i++;
+        }
+        Date tempDate = new Date(input.toString());
+        dateOfWork = tempDate;
+        i++;
+        input = new StringBuffer ();
+        while (inputString.charAt (i) != '|')
+        {
+          input.append (inputString.charAt (i));
+          i++;
+        }
+        Date tempDateA = new Date(input.toString());
+        dateOfAuction=tempDateA;
+        i++;
+	
+	input = new StringBuffer ();
+        while (inputString.charAt (i) != '|')
+        {
+          input.append (inputString.charAt (i));
+          i++;
+        }
+        Double price = new Double(input.toString());
+        auctionSalesPrice = price;
+        i++;
+        input = new StringBuffer ();
+        while (inputString.charAt (i) != '|')
+        {
+          input.append (inputString.charAt (i));
+          i++;
+        }
+        medium = input.toString ();
+        i++;
     }
     catch (Exception e)
     {
-        System.out.println ("***** Error: MasterpieceAuctionPainting.read () *****");
+        System.out.println ("***** Error: Arist.read () *****");
         System.out.println ("\t" + e);
     }
 
-  }
-//Desc: writes the variables dateOfPurchase, nameOfSeller, addressOfSeller, 
-//      actualPurchasePrice, and targetSellingPrice to a record in the file
+}
+
+//Desc: writes the fields of the object to a record line in the specified file
 //Post: updates the specified file
 public void write(RandomAccessFile fileName)
 {
-        try
-        {
-            fileName.writeChars(artistFirstName + "|" + artistLastName + 
-                "|" + titleOfWork+ "|" + dateOfWork + "|"+ 
-                dateOfAuction + "|" + auctionSalesPrice + "\n");
-        }
-        catch (Exception e)
-        {
-            System.out.println ("***** Error: MasterpieceAuctionPainting.write () *****");
-            System.out.println ("\t" + e);
-        }
+    try
+    {
+        fileName.writeBytes(artistFirstName + "|");
+        fileName.writeBytes(artistLastName + "|");
+        fileName.writeBytes(titleOfWork + "|");
+        String dateOfW="";
+        dateOfW=dateOfW.valueOf(dateOfWork);
+        fileName.writeBytes(dateOfW+"|" + "\n");
+        String dateOfA="";
+        dateOfA=dateOfA.valueOf(dateOfAuction);
+        fileName.writeBytes(dateOfA+"|" + "\n");
+        String price="";
+        price=price.valueOf(auctionSalesPrice);
+        fileName.writeBytes(price+"|" + "\n");
+        fileName.writeBytes(medium + "|");
+    }
+    catch (IOException e)
+    {
+        System.out.println ("***** Error: MasterpieceAuctionPainting.write () *****");
+        System.out.println ("\t" + e);
+    }
 }
-//Desc: writes the record back to the text file and prompts the 
-//      user the data has been saved
-//Post: changes the text file
+
+//Desc: saves an individual masterpieceAuctionPainting record into a file
+//Post: the message informing the user has been printed
 public void save()
 {
     try
     {
-        File paintingsFile = new File ("AuctionPaintings.dat"); // file of artist
-        File  temppaintingsFile = new File ("AuctPaintings.tmp"); // temporary file for artist
+        File auctFile = new File ("AuctionPainting.dat");  
+        File  tempAuctFile = new File ("AuctionPainting.tmp"); 
+        MasterpieceAuctionPainting tempAuct = new MasterpieceAuctionPainting ();  
+        boolean found = false;      
+        RandomAccessFile newFile = new RandomAccessFile (tempAuctFile, "rw");
 
-        BoughtPainting tempBoughtPainting = new BoughtPainting ();  // record read, then written
-        boolean found = false;      // terminates while-loop
-
-        RandomAccessFile newFile = new RandomAccessFile (temppaintingsFile, "rw");
-
-        if (!paintingsFile.exists ())
+        if (!auctFile.exists ())
         {
           write(newFile);
         }
         else
         {
-            RandomAccessFile oldFile = new RandomAccessFile (paintingsFile, "r");
-
-            int comparePaintings; // to find correct place for the new investment
-
+            RandomAccessFile oldFile = new RandomAccessFile (auctFile, "r");
+            boolean compareAuct;
             while (oldFile.getFilePointer () != oldFile.length ()) //the pointer hasn't reached the end of the file
             {
-                tempBoughtPainting.read(oldFile); //read walks through each field in the record
+                tempAuct.read(oldFile); //read walks through each field in the record
 
-                if (artistLastName.equals(tempBoughtPainting.getArtistLastName())
-                    && titleOfWork.equals(tempBoughtPainting.getTitleofWork()))
-                    comparePaintings=1;
-                else comparePaintings=0;
-
-                if (comparePaintings ==1) 
+                System.out.println(artistFirstName.equalsIgnoreCase(tempAuct.getArtistFirstName()));
+                System.out.println(titleOfWork.equalsIgnoreCase(tempAuct.getTitleOfWork()));
+                if (artistFirstName.equalsIgnoreCase(tempAuct.getArtistFirstName()) &&
+                titleOfWork.equalsIgnoreCase(tempAuct.getTitleOfWork()))
+                    compareAuct=true;
+                else compareAuct=false;
+                if(compareAuct) 
                 {
-                    write (newFile); //replaces old file record with new file record
+                    write (newFile); 
+                    found=true;
                 } 
                 else
                 {
-                  tempBoughtPainting.write (newFile); //writes to 2nd temp file
+                  tempAuct.write(newFile); 
                 }
-          }  // while
-
-          //if (compareArist==0) write (newFile); // if never found in file, write to temp file
+            }  
+            if (!found) write (newFile); // if never found in file, write to temp file
 
           oldFile.close ();
 
@@ -235,9 +245,9 @@ public void save()
 
         newFile.close ();
 
-        paintingsFile.delete ();
-        temppaintingsFile.renameTo (paintingsFile);
-        System.out.println("record saved");
+        auctFile.delete ();
+        tempAuctFile.renameTo (auctFile);
+        System.out.println("record saved to file");
 
       }
       catch (Exception e)
@@ -245,5 +255,21 @@ public void save()
           System.out.println ("***** Error: MasterpieceAuctionPainting.putRecord () *****");
           System.out.println ("\t" + e);
       }
+  }
+    public void print () 
+ // displays the contents of an investment object. // 
+    { 
+        System.out.print ("Artist First Name: " + artistFirstName);
+        System.out.print ("\t Artist Last Name: " + artistLastName); 
+        System.out.println ("\t Title of Work: " + titleOfWork); 
+        System.out.println ("\t Date of Work: " + dateOfWork); 
+        System.out.println ("\t Date of Auction: " + dateOfAuction); 
+        System.out.println ("\t Auction Sales Price: " + auctionSalesPrice); 
+        System.out.println ("\t Medium: " + medium); 
+    } // print
+    public void performDeletion()
+    {
+    
     }
 }
+
