@@ -1,7 +1,7 @@
 MasterpieceAuctionPainting
 ==========================
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Date;
@@ -125,6 +125,7 @@ public void read(RandomAccessFile fileName)
           i++;
         }
         titleOfWork=input.toString();
+        i++;
         input = new StringBuffer ();
         while (inputString.charAt (i) != '|')
         {
@@ -181,13 +182,13 @@ public void write(RandomAccessFile fileName)
         fileName.writeBytes(titleOfWork + "|");
         String dateOfW="";
         dateOfW=dateOfW.valueOf(dateOfWork);
-        fileName.writeBytes(dateOfW+"|" + "\n");
+        fileName.writeBytes(dateOfW+"|");
         String dateOfA="";
         dateOfA=dateOfA.valueOf(dateOfAuction);
-        fileName.writeBytes(dateOfA+"|" + "\n");
+        fileName.writeBytes(dateOfA+"|");
         String price="";
         price=price.valueOf(auctionSalesPrice);
-        fileName.writeBytes(price+"|" + "\n");
+        fileName.writeBytes(price+"|");
         fileName.writeBytes(medium + "|");
     }
     catch (IOException e)
@@ -221,10 +222,10 @@ public void save()
             {
                 tempAuct.read(oldFile); //read walks through each field in the record
 
-                System.out.println(artistFirstName.equalsIgnoreCase(tempAuct.getArtistFirstName()));
-                System.out.println(titleOfWork.equalsIgnoreCase(tempAuct.getTitleOfWork()));
-                if (artistFirstName.equalsIgnoreCase(tempAuct.getArtistFirstName()) &&
-                titleOfWork.equalsIgnoreCase(tempAuct.getTitleOfWork()))
+                System.out.println(artistFirstName.equalsIgnoreCase(tempAuct.getArtistsFirstName()));
+                System.out.println(titleOfWork.equalsIgnoreCase(tempAuct.getTitleofWork()));
+                if (artistFirstName.equalsIgnoreCase(tempAuct.getArtistsFirstName()) &&
+                titleOfWork.equalsIgnoreCase(tempAuct.getTitleofWork()))
                     compareAuct=true;
                 else compareAuct=false;
                 if(compareAuct) 
@@ -271,5 +272,13 @@ public void save()
     {
     
     }
+    
+    public void readInRecord()
+    {
+        
+    }
+    
+
 }
+
 
