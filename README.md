@@ -191,7 +191,7 @@ public void read(RandomAccessFile fileName)
         Date tempDateA = new Date(input.toString());
         dateOfAuction=tempDateA;
         i++;
-	
+	//Auction Sales Price
 	input = new StringBuffer ();
         while (inputString.charAt (i) != '|')
         {
@@ -201,6 +201,7 @@ public void read(RandomAccessFile fileName)
         Double price = new Double(input.toString());
         auctionSalesPrice = price;
         i++;
+        //Medium
         input = new StringBuffer ();
         while (inputString.charAt (i) != '|')
         {
@@ -236,7 +237,7 @@ public void write(RandomAccessFile fileName)
         String price="";
         price=price.valueOf(auctionSalesPrice);
         fileName.writeBytes(price+"|");
-        fileName.writeBytes(medium + "|");
+        fileName.writeBytes(medium + "|" + "\n");
     }
     catch (IOException e)
     {
