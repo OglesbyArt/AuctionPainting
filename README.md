@@ -7,15 +7,15 @@ import java.io.RandomAccessFile;
 import java.util.Date;
 
 
-public class MasterpieceAuctionPainting extends Painting
+public class AuctionPainting extends Painting
 {
 
     private Date dateOfAuction;
     private double auctionSalesPrice;
 
-    //Desc: constructor for MasterpieceAuctionPainting
-    //Post: Creates a new MasterpieceAuctionPainting 
-    MasterpieceAuctionPainting (String fname, String lname, 
+    //Desc: constructor for AuctionPainting
+    //Post: Creates a new AuctionPainting 
+    AuctionPainting (String fname, String lname, 
                 String titleofWork, Date doWork, Date doAuction,
                 double aucSalesPrice, String med)
     {
@@ -28,9 +28,9 @@ public class MasterpieceAuctionPainting extends Painting
 	medium=med;
     }
     
-    //Desc: constructor for MasterpieceAuctionPainting
-    //Post: Creates a new MasterpieceAuctionPainting 
-    MasterpieceAuctionPainting()
+    //Desc: constructor for AuctionPainting
+    //Post: Creates a new AuctionPainting 
+    AuctionPainting()
     {
         
     }
@@ -61,7 +61,7 @@ public class MasterpieceAuctionPainting extends Painting
     //Desc: uses the last name of an artist and the title of work to find the
     //       Bought Painting object in the array 
     //Return: returns the found Artist object or null value if Artist not found
-    public boolean find(String alastname, String title) //should only appear in painting
+    public boolean find(String alastname, String title) 
     {
         try
         {
@@ -85,14 +85,14 @@ public class MasterpieceAuctionPainting extends Painting
         }
         catch (Exception e)
         {
-            System.out.println ("***** Error: MasterpieceAuctionPainting.find () *****");
+            System.out.println ("***** Error: AuctionPainting.find () *****");
             System.out.println ("\t" + e);
 
             return false; //returns boolean right now, not artist
         }
     }
     
-//Desc: reads an MasterpieceAuctionPainting record form fileName
+//Desc: reads an AuctionPainting record form fileName
 //Pre: file must exist 
 //Post: all fields in this object are changed
 public void read(RandomAccessFile fileName)
@@ -193,12 +193,12 @@ public void write(RandomAccessFile fileName)
     }
     catch (IOException e)
     {
-        System.out.println ("***** Error: MasterpieceAuctionPainting.write () *****");
+        System.out.println ("***** Error: AuctionPainting.write () *****");
         System.out.println ("\t" + e);
     }
 }
 
-//Desc: saves an individual masterpieceAuctionPainting record into a file
+//Desc: saves an individual AuctionPainting record into a file
 //Post: the message informing the user has been printed
 public void save()
 {
@@ -206,7 +206,7 @@ public void save()
     {
         File auctFile = new File ("AuctionPainting.dat");  
         File  tempAuctFile = new File ("AuctionPainting.tmp"); 
-        MasterpieceAuctionPainting tempAuct = new MasterpieceAuctionPainting ();  
+        AuctionPainting tempAuct = new AuctionPainting ();  
         boolean found = false;      
         RandomAccessFile newFile = new RandomAccessFile (tempAuctFile, "rw");
 
@@ -253,7 +253,7 @@ public void save()
       }
       catch (Exception e)
       {
-          System.out.println ("***** Error: MasterpieceAuctionPainting.putRecord () *****");
+          System.out.println ("***** Error: AuctionPainting.putRecord () *****");
           System.out.println ("\t" + e);
       }
   }
@@ -280,5 +280,7 @@ public void save()
     
 
 }
+
+
 
 
