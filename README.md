@@ -1,7 +1,6 @@
-MasterpieceAuctionPainting
-==========================
+package artpricingsystem;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Date;
@@ -13,8 +12,8 @@ public class AuctionPainting extends Painting
     private Date dateOfAuction;
     private double auctionSalesPrice;
 
-    //Desc: constructor for AuctionPainting
-    //Post: Creates a new AuctionPainting 
+    //Desc: constructor for MasterpieceAuctionPainting
+    //Post: Creates a new MasterpieceAuctionPainting 
     AuctionPainting (String fname, String lname, 
                 String titleofWork, Date doWork, Date doAuction,
                 double aucSalesPrice, String med)
@@ -28,11 +27,17 @@ public class AuctionPainting extends Painting
 	medium=med;
     }
     
-    //Desc: constructor for AuctionPainting
-    //Post: Creates a new AuctionPainting 
+    //Desc: constructor for MasterpieceAuctionPainting
+    //Post: Creates a new MasterpieceAuctionPainting 
     AuctionPainting()
     {
-        
+        artistFirstName="";
+	artistLastName="";
+	titleOfWork="";
+	dateOfWork=new Date();
+	dateOfAuction =new Date();
+        auctionSalesPrice =0;
+	medium="";
     }
 
     //Return: The date of the Auction
@@ -46,7 +51,29 @@ public class AuctionPainting extends Painting
     {
         dateOfAuction = d;
     }
-	//Desc: Set Auction Sales Price to d
+    
+    //Desc: updates the dateOfPurchase in a record from user's input
+    //Post: dateOfPurchase field is updated 
+    public void updateDateofAuction()
+    {
+        try 
+        {
+            System.out.println("Old Date of Purchase:" + dateOfAuction);
+            System.out.println("Please enter new Date of Purchase (mm/dd/yyyy) and press <ENTER>: ");
+            Date tempDate=new Date(UserInterface.getString());
+            dateOfAuction=tempDate;
+        }
+        
+        catch (NumberFormatException e)
+        {
+           System.out.println("Value entered is not a date value. Please enter a date value (mm/dd/yyyy): "); 
+           Date tempDate=new Date (UserInterface.getString());
+           dateOfAuction=tempDate;
+           return;
+        }
+    }
+    
+    //Desc: Set Auction Sales Price to d
     public void setAuctionSalesPrice(double d)
     {
         auctionSalesPrice = d;
@@ -58,10 +85,30 @@ public class AuctionPainting extends Painting
     	return auctionSalesPrice;
     }
 
+        //Desc: updates the dateOfPurchase in a record from user's input
+    //Post: dateOfPurchase field is updated 
+    public void updateAuctionSalesPrice()
+    {
+        try 
+        {
+            System.out.println("Old Target Selling Price:" + auctionSalesPrice);
+            System.out.println("Please enter new Target Selling Price and press <ENTER>: ");
+            double tempprice=new Double(UserInterface.getString());
+            auctionSalesPrice=tempprice;
+        }
+        
+        catch (NumberFormatException e)
+        {
+           System.out.println("Value entered is not an double value. Please enter a double value: "); 
+           auctionSalesPrice=Double.parseDouble(UserInterface.getString());
+           return;
+        }
+    }
+    
     //Desc: uses the last name of an artist and the title of work to find the
     //       Bought Painting object in the array 
     //Return: returns the found Artist object or null value if Artist not found
-    public boolean find(String alastname, String title) 
+    public boolean find(String alastname, String title) //should only appear in painting
     {
         try
         {
@@ -92,7 +139,7 @@ public class AuctionPainting extends Painting
         }
     }
     
-//Desc: reads an AuctionPainting record form fileName
+//Desc: reads an MasterpieceAuctionPainting record form fileName
 //Pre: file must exist 
 //Post: all fields in this object are changed
 public void read(RandomAccessFile fileName)
@@ -165,7 +212,7 @@ public void read(RandomAccessFile fileName)
     }
     catch (Exception e)
     {
-        System.out.println ("***** Error: Arist.read () *****");
+        System.out.println ("***** Error: AuctionPainting.read () *****");
         System.out.println ("\t" + e);
     }
 
@@ -198,67 +245,58 @@ public void write(RandomAccessFile fileName)
     }
 }
 
-//Desc: saves an individual AuctionPainting record into a file
-//Post: the message informing the user has been printed
-public void save()
-{
-    try
+    //Desc: saves an individual masterpieceAuctionPainting record into a file
+    //Post: the message informing the user has been printed
+    public void save()
     {
-        File auctFile = new File ("AuctionPainting.dat");  
-        File  tempAuctFile = new File ("AuctionPainting.tmp"); 
-        AuctionPainting tempAuct = new AuctionPainting ();  
-        boolean found = false;      
-        RandomAccessFile newFile = new RandomAccessFile (tempAuctFile, "rw");
+        try
+        {
+            File auctFile = new File ("AuctionPainting.dat");  
+            File  tempAuctFile = new File ("AuctionPainting.tmp"); 
+            AuctionPainting tempAuct = new AuctionPainting ();  
+            boolean found = false;      
+            RandomAccessFile newFile = new RandomAccessFile (tempAuctFile, "rw");
 
-        if (!auctFile.exists ())
-        {
-          write(newFile);
-        }
-        else
-        {
-            RandomAccessFile oldFile = new RandomAccessFile (auctFile, "r");
-            boolean compareAuct;
-            while (oldFile.getFilePointer () != oldFile.length ()) //the pointer hasn't reached the end of the file
+            if (!auctFile.exists ())
             {
-                tempAuct.read(oldFile); //read walks through each field in the record
-
-                System.out.println(artistFirstName.equalsIgnoreCase(tempAuct.getArtistsFirstName()));
-                System.out.println(titleOfWork.equalsIgnoreCase(tempAuct.getTitleofWork()));
-                if (artistFirstName.equalsIgnoreCase(tempAuct.getArtistsFirstName()) &&
-                titleOfWork.equalsIgnoreCase(tempAuct.getTitleofWork()))
-                    compareAuct=true;
-                else compareAuct=false;
-                if(compareAuct) 
+              write(newFile);
+            }
+            else
+            {
+                RandomAccessFile oldFile = new RandomAccessFile (auctFile, "r");
+                boolean compareAuct;
+                while (oldFile.getFilePointer () != oldFile.length ()) 
                 {
-                    write (newFile); 
-                    found=true;
-                } 
-                else
-                {
-                  tempAuct.write(newFile); 
-                }
-            }  
-            if (!found) write (newFile); // if never found in file, write to temp file
-
-          oldFile.close ();
-
-        }  // else
-
-        newFile.close ();
-
-        auctFile.delete ();
-        tempAuctFile.renameTo (auctFile);
-        System.out.println("record saved to file");
-
-      }
-      catch (Exception e)
-      {
-          System.out.println ("***** Error: AuctionPainting.putRecord () *****");
-          System.out.println ("\t" + e);
-      }
-  }
+                    tempAuct.read(oldFile); 
+                    if (artistFirstName.equalsIgnoreCase(tempAuct.getArtistsFirstName()) &&
+                    titleOfWork.equalsIgnoreCase(tempAuct.getTitleofWork()))
+                        compareAuct=true;
+                    else compareAuct=false;
+                    if(compareAuct) 
+                    {
+                        write (newFile); 
+                        found=true;
+                    } 
+                    else
+                    {
+                      tempAuct.write(newFile); 
+                    }
+                }  
+                if (!found) write (newFile); // if never found in file, write to temp file
+                oldFile.close ();
+            } 
+            newFile.close ();
+            auctFile.delete ();
+            tempAuctFile.renameTo (auctFile);
+            System.out.println("record saved to file");
+        }
+        catch (Exception e)
+        {
+            System.out.println ("***** Error: AuctionPainting.putRecord () *****");
+            System.out.println ("\t" + e);
+        }
+    }
     public void print () 
- // displays the contents of an investment object. // 
     { 
         System.out.print ("Artist First Name: " + artistFirstName);
         System.out.print ("\t Artist Last Name: " + artistLastName); 
@@ -267,20 +305,102 @@ public void save()
         System.out.println ("\t Date of Auction: " + dateOfAuction); 
         System.out.println ("\t Auction Sales Price: " + auctionSalesPrice); 
         System.out.println ("\t Medium: " + medium); 
-    } // print
-    public void performDeletion()
-    {
+    } 
     
-    }
-    
+    //Desc: reads in all fields into a Painting object from user input
+    //Post: all fields in Auction Painting are modified
     public void readInRecord()
     {
+        try
+        {         
+            System.out.println("Enter Artist First name: ");
+            artistFirstName = UserInterface.getString();
+            
+            System.out.println("Enter Artist Last name: ");
+            artistLastName= UserInterface.getString();
+            
+            System.out.println("Enter title of painting: ");
+            titleOfWork = UserInterface.getString();
+            
+            System.out.println("Enter the date the painting was created (mm/dd/yyyy): ");
+            Date tempdate = new Date(UserInterface.getString());
+            dateOfWork=tempdate; 
+            
+            System.out.println("Enter the date the painting was auctioned (mm/dd/yyyy): ");
+            Date tempauctdate = new Date(UserInterface.getString());
+            dateOfWork=tempauctdate;            
+            
+            System.out.println("Enter painting medium (oil, watercolor, or other): ");
+            medium  = UserInterface.getString();
+            while (!(medium.equalsIgnoreCase("oil")|medium.equalsIgnoreCase("watercolor")|
+                    medium.equalsIgnoreCase("other")))
+            {
+                System.out.println("Medium entered incorrectly. Please enter one of the following mediums: oil, watercolor, or other.");
+                medium=UserInterface.getString();
+            }
+            
+            System.out.println("Enter painting's auction Sale Price: ");
+            Double tempw=new Double( UserInterface.getString());
+            auctionSalesPrice =tempw;
+        }
         
+        catch (Exception e)
+        {
+           System.out.println("Record value entered is not the correct data type. Please re-enter the record: "); 
+           readInRecord();
+        }
+        /* catch (Exception e)
+        {
+            System.out.println ("***** Error: AuctionPainting.readInRecord () *****");
+            System.out.println ("\t" + e);
+        }*/
     }
     
+    //Desc: Deletes a single record in the GalleryPaintings.dat File if the artist last 
+    //      name and first name matches this object.
+    //Post: Modifies the GalleryPaintings.dat File   
+    public void performDeletion ()
+    {
+        try
+        {
+            File  paintingsFile = new File ("AuctionPainting.dat");
+            File  tempPaintingsFile = new File ("AuctionPainting.tmp");
 
+            AuctionPainting ap = new AuctionPainting ();	// record to be checked
+
+            if (!paintingsFile.exists ())
+            {
+              return;
+            }
+
+            RandomAccessFile inFile = new RandomAccessFile (paintingsFile, "r");
+            RandomAccessFile outFile = new RandomAccessFile (tempPaintingsFile, "rw");
+
+            while (inFile.getFilePointer () != inFile.length ())
+            {
+              ap.read (inFile);
+
+              if (!(artistLastName.equalsIgnoreCase(ap.getArtistLastName()) &&
+                        titleOfWork.equalsIgnoreCase(ap.getTitleofWork())))
+              {
+                  ap.write (outFile);
+              }
+            }
+
+            inFile.close ();
+            outFile.close ();
+
+            paintingsFile.delete ();
+            tempPaintingsFile.renameTo (paintingsFile);
+
+        }
+        catch (Exception e)
+        {
+            System.out.println ("***** Error: AuctionPainting.performDeletion () *****");
+            System.out.println ("\t" + e);
+        }
+    }  
+    
 }
-
-
 
 
