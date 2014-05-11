@@ -401,6 +401,69 @@ public void write(RandomAccessFile fileName)
             System.out.println ("\t" + e);
         }
     }  
+       public double findPrice(String alastname,  String med, String sub, double area)
+    {
+        try
+        {
+            System.out.println("start");
+            DetermineMostSimilarWork simwork = new DetermineMostSimilarWork();
+            File paintingsFile = new File ("AuctionPainting.dat");
+            boolean found = false;
+            double max=0;
+            double coeff=0;
+            double dummycoeff=0;
+            int subjectnumber=0;
+            int mediumnumber=0;
+            if (paintingsFile.exists())
+            {
+                System.out.println("file exists");
+                RandomAccessFile inFile = new RandomAccessFile (paintingsFile, "r");
+                while (!found && (inFile.getFilePointer()!=inFile.length()))
+                {
+                    read (inFile);
+                    if (artistLastName.equalsIgnoreCase(alastname) )
+                    {
+                        System.out.println("found artist");
+                        if (subject.equalsIgnoreCase(sub))
+                             subjectnumber=1;
+                        else subjectnumber=0;
+
+
+                        if(medium.equalsIgnoreCase(med))
+                            mediumnumber=1;
+                        else mediumnumber=0;
+
+                        double largerArea=simwork.compareReturnLarger(width*height, area);
+                        double smallerArea=simwork.compareReturnSmaller(width*height, area);
+                        dummycoeff=(mediumnumber+subjectnumber)*smallerArea/largerArea;
+                        System.out.println(dummycoeff);
+                        if(dummycoeff>coeff && (inFile.getFilePointer()==inFile.length()))
+                        {
+                            found = true;
+                            max=auctionSalesPrice;
+                        }
+                        else if (dummycoeff>coeff && (inFile.getFilePointer()!=inFile.length()))
+                            max=auctionSalesPrice;
+                    }
+                }
+                inFile.close();
+
+            }
+          /*  if (coeff==0)
+            {
+                System.out.println("The coefficient of similarity is zero for this artist.");
+                return 0;
+            }*/
+            return max;
+        }
+        catch (Exception e)
+        {
+            System.out.println ("***** Error: BoughtPainting.findPrice () *****");
+            System.out.println ("\t" + e);
+            return 0;
+        }
+
+}
     
 }
 
