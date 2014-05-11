@@ -316,12 +316,27 @@ public void write(RandomAccessFile fileName)
         {         
             System.out.println("Enter Artist First name: ");
             artistFirstName = UserInterface.getString();
+            while(artistFirstName.length()>31) 
+            {
+                System.out.println("Artist First Name exceeds 30 characters. Please enter shortened name:");
+                artistFirstName=UserInterface.getString();
+            }               
             
             System.out.println("Enter Artist Last name: ");
             artistLastName= UserInterface.getString();
+            while(artistLastName.length()>31) 
+            {
+                System.out.println("Artist Last Name exceeds 30 characters. Please enter shortened name:");
+                artistLastName=UserInterface.getString();
+            }            
             
             System.out.println("Enter title of painting: ");
             titleOfWork = UserInterface.getString();
+            while(titleOfWork.length()>41) 
+            {
+                System.out.println("Title of Work exceeds 40 characters. Please enter shortened name:");
+                titleOfWork=UserInterface.getString();
+            }    
             
             System.out.println("Enter the date the painting was created (mm/dd/yyyy): ");
             Date tempdate = new Date(UserInterface.getString());
@@ -401,7 +416,8 @@ public void write(RandomAccessFile fileName)
             System.out.println ("\t" + e);
         }
     }  
-       public double findPrice(String alastname,  String med, String sub, double area)
+    
+    public double findPrice(String alastname,  String med, String sub, double area)
     {
         try
         {
@@ -462,9 +478,7 @@ public void write(RandomAccessFile fileName)
             System.out.println ("\t" + e);
             return 0;
         }
-
-}
-    
+    }
 }
 
 
