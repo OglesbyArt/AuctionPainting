@@ -506,7 +506,7 @@ public void write(RandomAccessFile fileName)
                         double largerArea=simwork.compareReturnLarger(width*height, area);
                         double smallerArea=simwork.compareReturnSmaller(width*height, area);
                         dummycoeff=(mediumnumber+subjectnumber)*smallerArea/largerArea;
-                        System.out.println(dummycoeff);
+
                         if(dummycoeff>coeff && (inFile.getFilePointer()==inFile.length()))
                         {
                             found = true;
