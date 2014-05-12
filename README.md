@@ -514,9 +514,14 @@ public void write(RandomAccessFile fileName)
                         {
                             found = true;
                             max=auctionSalesPrice;
+                            coeff=dummycoeff;
                         }
                         else if (dummycoeff>coeff && (inFile.getFilePointer()!=inFile.length()))
+                        {
                             max=auctionSalesPrice;
+                            coeff=dummycoeff;
+                        }
+                        System.out.println(coeff);
                     }
                 }
 
@@ -528,6 +533,7 @@ public void write(RandomAccessFile fileName)
                 System.out.println("The coefficient of similarity is zero for this artist.");
                 return 0;
             }else
+            System.out.println(coeff);
             return max;
         }
         catch (Exception e)
