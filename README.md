@@ -1,6 +1,3 @@
-package artpricingsystem;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -382,14 +379,7 @@ public void write(RandomAccessFile fileName)
             System.out.println("Enter title of painting: ");
             titleOfWork = UserInterface.getString();
 
-            System.out.println("Enter classification of Painting (masterpiece, masterwork, or other): ");
-            classification = UserInterface.getString();
-            while (!(classification.equalsIgnoreCase("masterpiece")|classification.equalsIgnoreCase("masterwork")|
-                    classification.equalsIgnoreCase("other")))
-            {
-                System.out.println("Classification entered incorrectly. Please enter one of the following mediums: masterpiece, masterwork, or other.");
-                classification=UserInterface.getString();
-            }
+            classification = "Masterpiece";
 
             System.out.println("Enter the date the painting was created (mm/dd/yyyy): ");
             Date tempdate = new Date(UserInterface.getString());
@@ -548,6 +538,3 @@ public void write(RandomAccessFile fileName)
         }
     }
 }
-
-
-
