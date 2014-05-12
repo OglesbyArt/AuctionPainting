@@ -146,42 +146,104 @@ public void read(RandomAccessFile fileName)
 {
     try
     {
-        String  inputString = new String ();    
-        int i = 0;                      
-        inputString = fileName.readLine ();
-        StringBuffer input = new StringBuffer ();   
-        while (inputString.charAt (i) != '|')
-        {
-          input.append (inputString.charAt (i));
-          i++;
-        }
-        artistFirstName = input.toString();
-        i++;
-        input = new StringBuffer ();
-        while (inputString.charAt (i) != '|')
-        {
-          input.append (inputString.charAt (i));
-          i++;
-        }
-        artistLastName = input.toString ();
-        i++;
-        input = new StringBuffer ();
-        while (inputString.charAt (i) != '|')
-        {
-          input.append (inputString.charAt (i));
-          i++;
-        }
-        titleOfWork=input.toString();
-        i++;
-        input = new StringBuffer ();
-        while (inputString.charAt (i) != '|')
-        {
-          input.append (inputString.charAt (i));
-          i++;
-        }
-        Date tempDate = new Date(input.toString());
-        dateOfWork = tempDate;
-        i++;
+            String  inputString = new String ();
+            int	i = 0;
+            inputString = fileName.readLine ();
+
+            //Artist First Name
+            StringBuffer input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            artistFirstName = input.toString ();
+            i++;
+
+            //Artist Last Name
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            artistLastName = input.toString ();
+            i++;
+
+            //Title of Work
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+             titleOfWork = input.toString ();
+            i++;
+
+            //Date of Work
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            Date tempdow = new Date (input.toString ());
+            dateOfWork = tempdow;
+            i++;
+
+            //classification
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            classification = input.toString ();
+            i++;
+
+            //Height
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            Double tempheight = new Double (input.toString ());
+            height = tempheight;
+            i++;
+
+            //Width
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            Double tempwidth = new Double (input.toString ());
+            width = tempwidth;
+            i++;
+
+            //Medium
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            medium = input.toString();
+            i++;
+
+            //Subject
+            input = new StringBuffer ();
+            while (inputString.charAt (i) != '|')
+            {
+              input.append (inputString.charAt (i));
+              i++;
+            }
+            subject = input.toString();
+            i++;
+
+
         input = new StringBuffer ();
         while (inputString.charAt (i) != '|')
         {
@@ -191,6 +253,7 @@ public void read(RandomAccessFile fileName)
         Date tempDateA = new Date(input.toString());
         dateOfAuction=tempDateA;
         i++;
+        
 	//Auction Sales Price
 	input = new StringBuffer ();
         while (inputString.charAt (i) != '|')
@@ -200,15 +263,6 @@ public void read(RandomAccessFile fileName)
         }
         Double price = new Double(input.toString());
         auctionSalesPrice = price;
-        i++;
-        //Medium
-        input = new StringBuffer ();
-        while (inputString.charAt (i) != '|')
-        {
-          input.append (inputString.charAt (i));
-          i++;
-        }
-        medium = input.toString ();
         i++;
     }
     catch (Exception e)
