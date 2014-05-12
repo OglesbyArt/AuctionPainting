@@ -348,7 +348,7 @@ public void write(RandomAccessFile fileName)
             
             System.out.println("Enter painting medium (oil, watercolor, or other): ");
             medium  = UserInterface.getString();
-            while (!(medium.equalsIgnoreCase("oil")|medium.equalsIgnoreCase("watercolor")|
+            while (!(medium.equalsIgnoreCase("oil")||medium.equalsIgnoreCase("watercolor")||
                     medium.equalsIgnoreCase("other")))
             {
                 System.out.println("Medium entered incorrectly. Please enter one of the following mediums: oil, watercolor, or other.");
