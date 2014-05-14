@@ -1,3 +1,5 @@
+package oglesby;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -357,11 +359,17 @@ public void write(RandomAccessFile fileName)
     {
         System.out.print ("Artist First Name: " + artistFirstName);
         System.out.print ("\t Artist Last Name: " + artistLastName);
-        System.out.println ("\t Title of Work: " + titleOfWork);
-        System.out.println ("\t Date of Work: " + dateOfWork);
+        System.out.print ("\t Title Of Work: " + titleOfWork);
+        System.out.print ("\t Date Of Work: " + dateOfWork);
+        System.out.print ("\t Classification: " + classification);
+        System.out.print ("\t Height: " + height);
+        System.out.print ("\t Width: " + width);
+        System.out.print ("\t Medium: " + medium);
+        System.out.print ("\t Subject: " + subject);
+
         System.out.println ("\t Date of Auction: " + dateOfAuction);
         System.out.println ("\t Auction Sales Price: " + auctionSalesPrice);
-        System.out.println ("\t Medium: " + medium);
+
     }
 
     //Desc: reads in all fields into a Painting object from user input
@@ -370,7 +378,7 @@ public void write(RandomAccessFile fileName)
     {
         try
         {
-                        System.out.println("Enter Artist First name: ");
+            System.out.println("Enter Artist First name: ");
             artistFirstName = UserInterface.getString();
 
             System.out.println("Enter Artist Last name: ");
@@ -379,7 +387,14 @@ public void write(RandomAccessFile fileName)
             System.out.println("Enter title of painting: ");
             titleOfWork = UserInterface.getString();
 
-            classification = "Masterpiece";
+            System.out.println("Enter classification of Painting (masterpiece, masterwork, or other): ");
+            classification = UserInterface.getString();
+            while (!(classification.equalsIgnoreCase("masterpiece")|classification.equalsIgnoreCase("masterwork")|
+                    classification.equalsIgnoreCase("other")))
+            {
+                System.out.println("Classification entered incorrectly. Please enter one of the following mediums: masterpiece, masterwork, or other.");
+                classification=UserInterface.getString();
+            }
 
             System.out.println("Enter the date the painting was created (mm/dd/yyyy): ");
             Date tempdate = new Date(UserInterface.getString());
@@ -410,12 +425,12 @@ public void write(RandomAccessFile fileName)
             System.out.println("Enter painting height: ");
             Double temph=new Double(UserInterface.getString());
             height =temph;
-            
+
            System.out.println("Enter the date the painting was bought at auction (mm/dd/yyyy): ");
             tempdate = new Date(UserInterface.getString());
             dateOfAuction=tempdate;
 
-            
+
             System.out.println("Enter painting's auction Sale Price: ");
             tempw=new Double( UserInterface.getString());
             auctionSalesPrice =tempw;
@@ -478,69 +493,7 @@ public void write(RandomAccessFile fileName)
         }
     }
 
-    public double findPrice(String alastname,  String med, String sub, double area)
-    {
-        try
-        {
-            DetermineMostSimilarWork simwork = new DetermineMostSimilarWork();
-            File paintingsFile = new File ("AuctionPainting.dat");
-            boolean found = false;
-            double max=0;
-            double coeff=0;
-            double dummycoeff=0;
-            int subjectnumber=0;
-            int mediumnumber=0;
-            if (paintingsFile.exists())
-            {
-                RandomAccessFile inFile = new RandomAccessFile (paintingsFile, "r");
-                while (!found && (inFile.getFilePointer()!=inFile.length()))
-                {
-                    read (inFile);
-                    if (artistLastName.equalsIgnoreCase(alastname) )
-                    {
-                        if (subject.equalsIgnoreCase(sub))
-                             subjectnumber=1;
-                        else subjectnumber=0;
 
-
-                        if(medium.equalsIgnoreCase(med))
-                            mediumnumber=1;
-                        else mediumnumber=0;
-
-                        double largerArea=simwork.compareReturnLarger(width*height, area);
-                        double smallerArea=simwork.compareReturnSmaller(width*height, area);
-                        dummycoeff=(mediumnumber+subjectnumber)*smallerArea/largerArea;
-                        if(dummycoeff>coeff && (inFile.getFilePointer()==inFile.length()))
-                        {
-                            found = true;
-                            max=auctionSalesPrice;
-                            coeff=dummycoeff;
-                        }
-                        else if (dummycoeff>coeff && (inFile.getFilePointer()!=inFile.length()))
-                        {
-                            max=auctionSalesPrice;
-                            coeff=dummycoeff;
-                        }
-                        System.out.println(coeff);
-                    }
-                }
-
-                inFile.close();
-
-            }
-            if (coeff==0)
-            {
-                System.out.println("The coefficient of similarity is zero for this artist.");
-                return 0;
-            }else
-            System.out.println(coeff);
-            return max;
-        }
-        catch (Exception e)
-        {
-            System.out.println ("***** Error: BoughtPainting.findPrice () *****");
-            System.out.println ("\t" + e);
-            return 0;
-        }
-    }
 }
+
+
