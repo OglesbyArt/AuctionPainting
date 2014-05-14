@@ -1,5 +1,3 @@
-package oglesby;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -492,8 +490,4 @@ public void write(RandomAccessFile fileName)
             System.out.println ("\t" + e);
         }
     }
-
-
 }
-
-
