@@ -294,7 +294,7 @@ public void write(RandomAccessFile fileName)
         fileName.writeBytes(dateOfA+"|");
         String price="";
         price=price.valueOf(auctionSalesPrice);
-        fileName.writeBytes(price+"|");
+        fileName.writeBytes(price+"|\n");
 
     }
     catch (IOException e)
