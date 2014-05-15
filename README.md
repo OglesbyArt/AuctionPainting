@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -292,7 +293,7 @@ public void write(RandomAccessFile fileName)
         fileName.writeBytes(dateOfA+"|");
         String price="";
         price=price.valueOf(auctionSalesPrice);
-        fileName.writeBytes(price+"|\n");
+        fileName.writeBytes(price+"|");
 
     }
     catch (IOException e)
@@ -490,4 +491,6 @@ public void write(RandomAccessFile fileName)
             System.out.println ("\t" + e);
         }
     }
+
+
 }
