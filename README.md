@@ -8,35 +8,47 @@ import java.util.Date;
 public class AuctionPainting extends Painting
 {
 
-    private Date dateOfAuction;
-    private double auctionSalesPrice;
+    protected Date dateOfAuction;
+    protected double auctionSalesPrice;
 
     //Desc: constructor for MasterpieceAuctionPainting
     //Post: Creates a new MasterpieceAuctionPainting
-    AuctionPainting (String fname, String lname,
-                String titleofWork, Date doWork, Date doAuction,
-                double aucSalesPrice, String med)
+   /* AuctionPainting (String fname, String lname,
+                String titleOfWork, Date doWork, double h, double w, 
+		String med, String sub, Date doAuction,
+                double aucSalesPrice)
     {
         artistFirstName=fname;
 	artistLastName=lname;
-	titleOfWork=titleofWork;
+	titleOfWork=titleOfWork;
+	classification="";
 	dateOfWork=doWork;
+	height=h;
+        width=w;
+	medium=med;
+	subject=sub;
 	dateOfAuction =doAuction;
         auctionSalesPrice = aucSalesPrice;
-	medium=med;
+	
     }
+   */
 
     //Desc: constructor for MasterpieceAuctionPainting
     //Post: Creates a new MasterpieceAuctionPainting
     AuctionPainting()
     {
+        //first Name, Last name, Painting Title, Date of Creation, Classification, height, width, medium, subject, date of auction, auction sale price
         artistFirstName="";
 	artistLastName="";
 	titleOfWork="";
-	dateOfWork=new Date();
+        dateOfWork=new Date();
+	classification="";
+	height=0.0;
+        width=0.0;
+	medium="";
+	subject="";
 	dateOfAuction =new Date();
         auctionSalesPrice =0;
-	medium="";
     }
 
     //Return: The date of the Auction
@@ -107,22 +119,20 @@ public class AuctionPainting extends Painting
     //Desc: uses the last name of an artist and the title of work to find the
     //       Bought Painting object in the array
     //Return: returns the found Artist object or null value if Artist not found
-    public boolean find(String alastname, String title) //should only appear in painting
+    public boolean find(String alastname, String title)
     {
         try
         {
-            File paintingsFile = new File ("AuctionPaintings.dat");
+            File paintingsFile = new File ("AuctionPainting.dat");
             boolean found = false;
-
-            if (paintingsFile.exists ())
+            if (paintingsFile.exists())
             {
                 RandomAccessFile inFile = new RandomAccessFile (paintingsFile, "r");
-
-                while (!found && (inFile.getFilePointer () != inFile.length ()))
+                while (!found && (inFile.getFilePointer()!=inFile.length()))
                 {
                     read (inFile);
-
-                    if (artistLastName.equals(alastname) && titleOfWork.equals(title))
+                    if (artistLastName.equalsIgnoreCase(alastname) &&
+                    titleOfWork.equalsIgnoreCase(title))
                         found = true;
                 }
                 inFile.close();
@@ -133,11 +143,9 @@ public class AuctionPainting extends Painting
         {
             System.out.println ("***** Error: AuctionPainting.find () *****");
             System.out.println ("\t" + e);
-
-            return false; //returns boolean right now, not artist
+            return false;
         }
     }
-
 //Desc: reads an MasterpieceAuctionPainting record form fileName
 //Pre: file must exist
 //Post: all fields in this object are changed
@@ -288,12 +296,8 @@ public void write(RandomAccessFile fileName)
         fileName.writeBytes(width + "|");
         fileName.writeBytes(medium + "|");
         fileName.writeBytes(subject + "|");
-        String dateOfA="";
-        dateOfA=dateOfA.valueOf(dateOfAuction);
-        fileName.writeBytes(dateOfA+"|");
-        String price="";
-        price=price.valueOf(auctionSalesPrice);
-        fileName.writeBytes(price+"|\n");
+        fileName.writeBytes(dateOfAuction+"|");
+        fileName.writeBytes(auctionSalesPrice+"|\n");
 
     }
     catch (IOException e)
@@ -447,9 +451,9 @@ public void write(RandomAccessFile fileName)
         }*/
     }
 
-    //Desc: Deletes a single record in the GalleryPaintings.dat File if the artist last
+    //Desc: Deletes a single record in the AuctionPainting.dat File if the artist last
     //      name and first name matches this object.
-    //Post: Modifies the GalleryPaintings.dat File
+    //Post: Modifies the AuctionPaintings.dat File
     public void performDeletion ()
     {
         try
